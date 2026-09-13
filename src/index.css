@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0f0f0f;
+  --color-night: #1a1a1a;
+  --color-card: #242424;
+  --color-card-2: #2e2e2e;
+  --color-line: #3a3a3a;
+  --color-mute: #a1a1a1;
+  --color-lime: #c5f04a;
+  --color-lime-soft: #dcfa86;
+  --color-sky: #8ec5ff;
+  --color-amber: #ffc857;
+  --color-coral: #ff6b5b;
+
+  --font-sans: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+  --font-logo: "Bowlby One SC", "Space Grotesk Variable", sans-serif;
+
+  --animate-rise: rise 0.4s ease-out both;
+  --animate-pop: pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  --animate-float: float 3.2s ease-in-out infinite;
+  --animate-sheet: sheet 0.3s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  --animate-fade: fade 0.2s ease-out both;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.6) rotate(-8deg); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+  }
+  @keyframes sheet {
+    from { transform: translateY(100%); }
+    to { transform: none; }
+  }
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* The chunky "sticker" edge from the reference: dark gap + offset lime rim. */
+@utility sticker {
+  box-shadow: 0 0 0 2px var(--color-night), 4px 4px 0 2px var(--color-lime-soft);
+}
+@utility sticker-pressed {
+  box-shadow: 0 0 0 2px var(--color-night), 1px 1px 0 2px var(--color-lime-soft);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    background: var(--color-ink);
+    color: #fff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+/* Range slider */
+.range {
+  appearance: none;
+  width: 100%;
+  height: 36px;
+  background: transparent;
+}
+.range:focus-visible {
+  outline: none;
+}
+.range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-lime) var(--p), var(--color-line) var(--p));
+}
+.range::-webkit-slider-thumb {
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  margin-top: -11px;
+  border-radius: 999px;
+  background: var(--color-lime);
+  border: 3px solid var(--color-card);
+  box-shadow: 0 0 0 2px var(--color-lime);
+}
+.range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 2px var(--color-lime), 0 0 0 6px rgb(197 240 74 / 0.3);
+}
+.range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-line);
+}
+.range::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-lime);
+}
+.range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--color-lime);
+  border: 3px solid var(--color-card);
+  box-shadow: 0 0 0 2px var(--color-lime);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
