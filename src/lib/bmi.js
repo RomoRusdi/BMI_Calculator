@@ -1,20 +1,35 @@
-// WHO adult BMI categories. `max` is exclusive and applied to the BMI rounded
-// to one decimal, so the category always matches the number shown on screen.
+// Klasifikasi IMT dewasa Kemenkes RI (Pedoman Gizi Seimbang 2014).
+// Thresholds are inclusive (`upTo`) and applied to the BMI rounded to one
+// decimal, so the category always matches the number shown on screen.
+// `min`/`max` describe each category's span on the gauge.
 export const CATEGORIES = [
+  {
+    key: 'severe-under',
+    label: 'Kurus Berat',
+    range: '< 17,0',
+    upTo: 16.9,
+    min: 15,
+    max: 17,
+    color: '#6f9bff',
+    mood: 'worried',
+    tip: 'Berat badanmu jauh di bawah normal. Segera konsultasikan dengan dokter atau ahli gizi untuk mencari penyebabnya dan menyusun rencana menaikkan berat badan yang aman.',
+  },
   {
     key: 'under',
     label: 'Kurus',
-    range: '< 18,5',
-    min: 15,
+    range: '17,0 – 18,4',
+    upTo: 18.4,
+    min: 17,
     max: 18.5,
-    color: '#8ec5ff',
-    mood: 'worried',
+    color: '#a5d8ff',
+    mood: 'think',
     tip: 'Tambah asupan kalori dari makanan bergizi — protein, karbohidrat kompleks, dan lemak sehat — serta latihan kekuatan. Konsultasikan ke dokter bila berat terus turun.',
   },
   {
     key: 'normal',
     label: 'Normal',
-    range: '18,5 – 24,9',
+    range: '18,5 – 25,0',
+    upTo: 25,
     min: 18.5,
     max: 25,
     color: '#c5f04a',
@@ -24,9 +39,10 @@ export const CATEGORIES = [
   {
     key: 'over',
     label: 'Gemuk',
-    range: '25 – 29,9',
+    range: '25,1 – 27,0',
+    upTo: 27,
     min: 25,
-    max: 30,
+    max: 27,
     color: '#ffc857',
     mood: 'think',
     tip: 'Kurangi gula dan makanan olahan, perbanyak sayur, dan tambah aktivitas fisik. Turun 5–10% berat badan saja sudah berdampak besar.',
@@ -34,9 +50,10 @@ export const CATEGORIES = [
   {
     key: 'obese',
     label: 'Obesitas',
-    range: '≥ 30',
-    min: 30,
-    max: 40,
+    range: '> 27,0',
+    upTo: Infinity,
+    min: 27,
+    max: 35,
     color: '#ff6b5b',
     mood: 'worried',
     tip: 'Risiko diabetes, hipertensi, dan penyakit jantung meningkat. Sebaiknya konsultasikan dengan dokter atau ahli gizi untuk rencana yang aman.',
@@ -52,13 +69,13 @@ export function calcBmi(heightCm, weightKg) {
 
 export function getCategory(bmi) {
   const value = round1(bmi)
-  return CATEGORIES.find((c) => value < c.max) ?? CATEGORIES[CATEGORIES.length - 1]
+  return CATEGORIES.find((c) => value <= c.upTo) ?? CATEGORIES[CATEGORIES.length - 1]
 }
 
-/** Healthy weight range (BMI 18.5–24.9) for a given height, in kg. */
+/** Normal weight range (BMI 18.5–25.0, Kemenkes) for a given height, in kg. */
 export function idealRange(heightCm) {
   const m2 = (heightCm / 100) ** 2
-  return [18.5 * m2, 24.9 * m2]
+  return [18.5 * m2, 25 * m2]
 }
 
 /** kg to gain (positive) or lose (negative) to reach the healthy range; 0 when inside it. */
@@ -70,8 +87,8 @@ export function weightDelta(heightCm, weightKg) {
 }
 
 /**
- * Position (0–1) on a gauge where each category gets an equal quarter,
- * which keeps the narrow "normal" band readable.
+ * Position (0–1) on a gauge where each category gets an equal share,
+ * which keeps the narrow bands readable.
  */
 export function gaugePosition(bmi) {
   const value = round1(bmi)

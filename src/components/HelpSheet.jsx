@@ -36,7 +36,8 @@ export default function HelpSheet({ open, onClose }) {
           <p className="mt-2 text-xs text-mute">Contoh: 65 kg, 170 cm → 65 ÷ (1,7 × 1,7) = 22,5</p>
         </div>
 
-        <ul className="mt-4">
+        <p className="mt-4 font-mono text-[11px] uppercase tracking-wider text-mute">Klasifikasi Kemenkes RI (dewasa)</p>
+        <ul className="mt-1">
           {CATEGORIES.map((c) => (
             <li key={c.key} className="flex items-center gap-3 border-b border-line py-2.5 last:border-0">
               <span className="h-3 w-3 rounded-full" style={{ background: c.color }} />

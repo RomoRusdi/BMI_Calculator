@@ -64,7 +64,7 @@ export default function Result({ draft, onSave, onEdit, onClose }) {
         </section>
 
         <h2 className="mt-7 text-lg font-bold">Kategori BMI</h2>
-        <p className="text-xs text-mute">Standar WHO untuk dewasa</p>
+        <p className="text-xs text-mute">Klasifikasi Kemenkes RI untuk dewasa</p>
         <ul className="mt-1">
           {CATEGORIES.map((c) => {
             const active = c.key === category.key

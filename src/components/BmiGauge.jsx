@@ -26,7 +26,7 @@ export default function BmiGauge({ bmi }) {
         </div>
       </div>
       <div className="relative mt-2 h-4 font-mono text-[10px] text-mute">
-        <span className="absolute left-0">15</span>
+        <span className="absolute left-0">{CATEGORIES[0].min}</span>
         {CATEGORIES.slice(1).map((c, i) => (
           <span
             key={c.key}
@@ -36,7 +36,7 @@ export default function BmiGauge({ bmi }) {
             {fmt(c.min, Number.isInteger(c.min) ? 0 : 1)}
           </span>
         ))}
-        <span className="absolute right-0">40</span>
+        <span className="absolute right-0">{CATEGORIES[CATEGORIES.length - 1].max}</span>
       </div>
     </div>
   )
